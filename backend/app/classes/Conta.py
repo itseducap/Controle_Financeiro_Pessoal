@@ -1,20 +1,20 @@
 import datetime as dt
 
-from Pessoa import Pessoa_Fisica
+from backend.app.classes.Pessoa import Pessoa_Fisica
 
-from helpers import check_and_normalize_email, hashing_senha
+from backend.app.helpers import check_and_normalize_email, hashing_senha
    
         
 class Usuario(Pessoa_Fisica):
-    def __init__(self, *, nome, cpf, email, hash_senha):
+    def __init__(self, *, nome, cpf, email, senha):
         super().__init__(nome=nome, cpf=cpf)
         self.data_criacao = dt.datetime.now()
         self.nome = nome
         self.email = email
-        self.hash_senha = hash_senha
+        self.hash_senha = senha
 
     def __str__(self):
-        return f"Nome: {self.nome}, CPF: {self.cpf}, data_criação: {self.data_criacao}, Email: {self.email}"
+        return f"Nome: {self.nome}, CPF: {self.cpf}, data_criação: {self.data_criacao}, Email: {self.email}, Senha: {self.hash_senha}"
         
 
     # TODO: implementar funcao registro de pagamento
@@ -48,7 +48,9 @@ class Usuario(Pessoa_Fisica):
     def email(self, email):
         validated_email = check_and_normalize_email(email=email, check=True)
         if validated_email["error"] is not None:
-            self._email = email
+            print (validated_email["error"])
+        print(email)
+        self._email = validated_email["email"]
 
     @property
     def hash_senha(self):
@@ -60,12 +62,3 @@ class Usuario(Pessoa_Fisica):
             self._hash_senha = hashing_senha(senha)
         except ValueError:
             print("Senha deve ser maior que 10 caracteres")
-
-
-# Teste:
-
-def main():
-    print("")
-
-if __name__ == "__main__":
-    main()
