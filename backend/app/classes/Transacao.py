@@ -1,6 +1,4 @@
-from abc import ABC, abstractmethod
-
-class Transacao(ABC):
+class Transacao():
     def __init__(self, id, data, horario, valor, metodo_pagamento, data_vencimento, data_pagamento, remetente, categoria):
         self.id = id
         self.data = data
@@ -11,14 +9,6 @@ class Transacao(ABC):
         self.data_pagamento = data_pagamento
         self.remetente = remetente
         self.categoria = categoria
-
-    @abstractmethod
-    def getter(self):
-        pass
-
-    @abstractmethod
-    def setter(self):
-        pass
 
     @property
     def pagador(self):
